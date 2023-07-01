@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Мини-чат</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: black;
+      color: white;
+    }
+
+    #chat {
+      height: 300px;
+      overflow-y: scroll;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      border: 2px solid #800080;
+      border-radius: 5px;
+      padding: 5px;
+      word-break: break-all;
+    }
+
+    .message span {
+      display: inline;
+    }
+
+    #message-input {
+      background-color: black;
+      color: white;
+      border: 2px solid white;
+      border-radius: 5px;
+      padding: 5px;
+    }
+
+    #submit-button {
+      background-color: orange;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    #submit-button:hover {
+      background-color: #ff9900;
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      loadChat();
+      displayMessages();
+    });
+
+    function sendMessage() {
+      var input = document.getElementById("message-input");
+      var message = input.value.trim();
+      if (message === "") {
+        return;
+      }
+
+      var username = getUsername();
+      var chat = getChat();
+      chat.push({ username: username, message: message });
+      saveChat(chat);
+      input.value = "";
+      displayMessages();
+    }
+
+    function getChat() {
+      var chatJson = localStorage.getItem("chat");
+      return chatJson ? JSON.parse(chatJson) : [];
+    }
+
+    function saveChat(chat) {
+      localStorage.setItem("chat", JSON.stringify(chat));
+    }
+
+    function loadChat() {
+      var username = getUsername();
+      if (!username) {
+        username = prompt("Введите ваше имя:");
+        localStorage.setItem("username", username);
+      }
+    }
+
+    function getUsername() {
+      return localStorage.getItem("username");
+    }
+
+    function displayMessages() {
+      var chat = getChat();
+      var chatContainer = document.getElementById("chat");
+      chatContainer.innerHTML = "";
+      chat.forEach(function(entry) {
+        var messageElement = document.createElement("div");
+        messageElement.classList.add("message");
+
+        var usernameElement = document.createElement("span");
+        usernameElement.style.fontWeight = "bold";
+        usernameElement.textContent = entry.username + ": ";
+
+        var messageTextElement = document.createElement("span");
+        messageTextElement.textContent = entry.message;
+
+        messageElement.appendChild(usernameElement);
+        messageElement.appendChild(messageTextElement);
+
+        chatContainer.appendChild(messageElement);
+      });
+    }
+  </script>
+</head>
+<body>
+  <h1>Мини-чат</h1>
+  <div id="chat"></div>
+
+  <form id="message-form" onsubmit="sendMessage(); return false;">
+    <input type="text" id="message-input" placeholder="Введите сообщение" required>
+    <button type="submit" id="submit-button">Отправить</button>
+  </form>
+</body>
+</html>
