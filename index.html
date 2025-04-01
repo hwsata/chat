@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neon Retro Player</title>
+    <title>Neon Mega Player - 1000+ Tracks</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -273,17 +273,64 @@
                 font-size: 12px !important;
             }
         }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--neon-pink), var(--neon-blue));
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(var(--neon-purple), var(--neon-green));
+        }
+
+        .search-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-purple);
+            box-shadow: 0 0 10px var(--neon-purple);
+            color: white;
+        }
+
+        .tabs-btn {
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tabs-btn.active {
+            border-bottom: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        .tabs-btn:hover:not(.active) {
+            border-bottom: 2px solid var(--neon-purple);
+            color: var(--neon-purple);
+        }
+
+        .playlist-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-between p-4">
     <header class="w-full text-center mb-8">
         <div class="logo-container floating">
-            <img src="logo.png" alt="Neon Player Logo" class="w-48 h-auto rounded-lg">
+            <img src="https://via.placeholder.com/200x80?text=NEON+MEGA+PLAYER" alt="Neon Mega Player Logo" class="w-64 h-auto rounded-lg">
         </div>
-        <h1 class="neon-text text-2xl md:text-4xl mt-4">NEON RETRO PLAYER</h1>
+        <h1 class="neon-text text-2xl md:text-4xl mt-4">NEON MEGA PLAYER - 1000+ TRACKS</h1>
     </header>
 
-    <main class="w-full max-w-2xl flex-grow flex flex-col items-center justify-center">
+    <main class="w-full max-w-6xl flex-grow flex flex-col items-center justify-center">
         <div class="player-container neon-border w-full p-8 mb-8 bg-opacity-50 backdrop-blur-sm">
             <div class="flex flex-col items-center">
                 <div class="w-40 h-40 md:w-64 md:h-64 mb-6 neon-border overflow-hidden rounded-full">
@@ -317,30 +364,44 @@
             </div>
         </div>
         
-        <div class="w-full max-w-2xl neon-border p-4 mb-8">
-            <h3 class="neon-text text-lg mb-4">Playlist</h3>
-            <ul id="playlist" class="space-y-2 max-h-60 overflow-y-auto">
-                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
-                    <span>Retro Wave 1</span>
-                    <span class="text-xs text-gray-400">3:24</span>
-                </li>
-                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
-                    <span>Synth Dreams</span>
-                    <span class="text-xs text-gray-400">4:12</span>
-                </li>
-                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
-                    <span>Neon Nights</span>
-                    <span class="text-xs text-gray-400">3:45</span>
-                </li>
-                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
-                    <span>Cyberpunk City</span>
-                    <span class="text-xs text-gray-400">5:18</span>
-                </li>
-                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
-                    <span>Outrun Memories</span>
-                    <span class="text-xs text-gray-400">4:32</span>
-                </li>
-            </ul>
+        <div class="w-full max-w-6xl neon-border p-6 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                <h3 class="neon-text text-lg">1005 TRACKS COLLECTION</h3>
+                <div class="relative w-full md:w-64">
+                    <input type="text" id="search-input" placeholder="Search tracks..." 
+                        class="search-box w-full px-4 py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    <i class="fas fa-search absolute right-3 top-2.5 text-gray-400"></i>
+                </div>
+            </div>
+
+            <div class="flex mb-4 gap-2 flex-wrap">
+                <button class="tabs-btn px-4 py-2 active" data-genre="all">All Genres</button>
+                <button class="tabs-btn px-4 py-2" data-genre="synthwave">Synthwave</button>
+                <button class="tabs-btn px-4 py-2" data-genre="retrowave">Retrowave</button>
+                <button class="tabs-btn px-4 py-2" data-genre="cyberpunk">Cyberpunk</button>
+                <button class="tabs-btn px-4 py-2" data-genre="electronic">Electronic</button>
+                <button class="tabs-btn px-4 py-2" data-genre="chiptune">Chiptune</button>
+            </div>
+
+            <div class="playlist-container">
+                <table class="w-full">
+                    <thead>
+                        <tr class="text-left border-b border-purple-900">
+                            <th class="pb-2 w-12">#</th>
+                            <th class="pb-2">Title</th>
+                            <th class="pb-2">Artist</th>
+                            <th class="pb-2 text-right pr-4">Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody id="playlist">
+                        <!-- Tracks will be loaded here dynamically -->
+                    </tbody>
+                </table>
+                <div id="loading-more" class="text-center py-4 hidden">
+                    <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-purple-500"></div>
+                    <span class="ml-2 text-sm">Loading more tracks...</span>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -356,7 +417,7 @@
             <div class="bowl"></div>
             <div class="food"></div>
         </div>
-        <p class="text-xs text-gray-500">Winsent Sweet Home DEV 2023, все права защищены</p>
+        <p class="text-xs text-gray-500">© 2023 Neon Mega Player - 1005 Tracks Collection</p>
     </footer>
 
     <script>
@@ -373,65 +434,119 @@
         const artistNameEl = document.getElementById('artist-name');
         const albumArtEl = document.getElementById('album-art');
         const playlistEl = document.getElementById('playlist');
+        const searchInput = document.getElementById('search-input');
+        const loadingMoreEl = document.getElementById('loading-more');
+        const tabButtons = document.querySelectorAll('.tabs-btn');
         
-        // Sample playlist data
-        const playlist = [
-            {
-                title: "Retro Wave 1",
-                artist: "Synth Master",
-                duration: "3:24",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-                cover: "https://via.placeholder.com/300/ff00ff/000000?text=Retro+Wave"
-            },
-            {
-                title: "Synth Dreams",
-                artist: "Neon Dreams",
-                duration: "4:12",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-                cover: "https://via.placeholder.com/300/00ffff/000000?text=Synth+Dreams"
-            },
-            {
-                title: "Neon Nights",
-                artist: "Cyber Synth",
-                duration: "3:45",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-                cover: "https://via.placeholder.com/300/9d00ff/000000?text=Neon+Nights"
-            },
-            {
-                title: "Cyberpunk City",
-                artist: "Future Sounds",
-                duration: "5:18",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
-                cover: "https://via.placeholder.com/300/00ff00/000000?text=Cyberpunk+City"
-            },
-            {
-                title: "Outrun Memories",
-                artist: "Retro Drive",
-                duration: "4:32",
-                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
-                cover: "https://via.placeholder.com/300/ff9900/000000?text=Outrun+Memories"
+        // Generate 1005 tracks with different genres
+        function generateTracks() {
+            const genres = [
+                { name: 'synthwave', artists: ['Neon Dreams', 'Synth Master', 'Retro Waves', 'Future Echoes', 'Midnight Drive'], 
+                  prefixes: ['Midnight ', 'Neon ', 'Summer ', 'Night ', 'Outrun '], 
+                  suffixes: [' Dreams', ' Waves', ' City', ' Highway', ' Memories'] },
+                
+                { name: 'retrowave', artists: ['Retro Sunsets', '80s Dreams', 'VHS Memories', 'Sunset Drive', 'Palm Shadows'], 
+                  prefixes: ['Sunset ', 'Summer ', '1984 ', 'Drive ', 'Lovers '], 
+                  suffixes: [' Again', ' Forever', ' Tonight', ' to Remember', ' in Black'] },
+                
+                { name: 'cyberpunk', artists: ['Cyber City', 'Neon Tokyo', 'Blade Runner', 'Dark Circuits', 'Night Network'], 
+                  prefixes: ['Neon ', 'Dystopian ', 'Rain ', 'Digital ', 'Glitch '], 
+                  suffixes: [' Protocol', ' Error', ' Overload', ' Hack', ' Interface'] },
+                
+                { name: 'electronic', artists: ['Electric Dreams', 'Digital Waves', 'Future Sound', 'Cosmic Pulse', 'Digital Mind'], 
+                  prefixes: ['Deep ', 'Stellar ', 'Quantum ', 'Cosmic ', 'Electric '], 
+                  suffixes: [' Flow', ' Wave', ' Beat', ' Pulse', ' Vibration'] },
+                
+                { name: 'chiptune', artists: ['8-Bit Dreams', 'Pixel Waves', 'Retro Game', 'Game Over', 'Famicom'], 
+                  prefixes: ['Power ', 'Game ', 'Super ', 'Turbo ', 'Rad '], 
+                  suffixes: [' Level', ' Boss', ' Game', ' Sequence', ' Mode'] }
+            ];
+            
+            const tracks = [];
+            
+            for (let genreIndex = 0; genreIndex < genres.length; genreIndex++) {
+                const genre = genres[genreIndex];
+                
+                for (let i = 0; i < 200; i++) {
+                    const artistIndex = i % genre.artists.length;
+                    const prefixIndex = (i + genreIndex) % genre.prefixes.length;
+                    const suffixIndex = (i + genreIndex + 1) % genre.suffixes.length;
+                    
+                    const duration = getRandomDuration(120, 360);
+                    
+                    tracks.push({
+                        id: tracks.length + 1,
+                        title: genre.prefixes[prefixIndex] + (i + 1) + genre.suffixes[suffixIndex],
+                        artist: genre.artists[artistIndex],
+                        duration: formatTime(duration),
+                        genre: genre.name,
+                        cover: `https://via.placeholder.com/300/${getRandomColor()}/ffffff?text=${genre.name.toUpperCase()}`,
+                        src: getRandomAudioUrl()
+                    });
+                }
             }
-        ];
+            
+            // Add 5 more tracks to reach 1005
+            for (let i = 0; i < 5; i++) {
+                tracks.push({
+                    id: tracks.length + 1,
+                    title: `Special Edition ${i + 1}`,
+                    artist: 'Neon Collection',
+                    duration: formatTime(240),
+                    genre: 'electronic',
+                    cover: `https://via.placeholder.com/300/9d00ff/ffffff?text=SPECIAL+${i + 1}`,
+                    src: getRandomAudioUrl()
+                });
+            }
+            
+            return tracks;
+        }
         
+        function getRandomColor() {
+            const colors = ['ff00ff', '00ffff', '9d00ff', 'ff9900', '00ff00'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        function getRandomDuration(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+        
+        function getRandomAudioUrl() {
+            const baseUrl = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-';
+            return baseUrl + (Math.floor(Math.random() * 9) + 1) + '.mp3';
+        }
+        
+        // Format time
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+        
+        // Generate the playlist
+        const fullPlaylist = generateTracks();
         let currentTrackIndex = 0;
+        let filteredPlaylist = [];
+        let currentGenre = 'all';
+        let currentSearch = '';
+        let isLoading = false;
+        let loadedItems = 30;
         
         // Load track
         function loadTrack(index) {
-            const track = playlist[index];
+            const track = filteredPlaylist[index];
             audio.src = track.src;
             songTitleEl.textContent = track.title;
             artistNameEl.textContent = track.artist;
             albumArtEl.src = track.cover;
             
-            // Update active item in playlist
-            const playlistItems = playlistEl.querySelectorAll('li');
+            // Highlight current track in playlist
+            const playlistItems = playlistEl.querySelectorAll('tr');
             playlistItems.forEach((item, i) => {
                 if (i === index) {
                     item.classList.add('bg-purple-900', 'bg-opacity-30');
-                    item.classList.remove('hover:bg-purple-900', 'hover:bg-opacity-30');
                 } else {
                     item.classList.remove('bg-purple-900', 'bg-opacity-30');
-                    item.classList.add('hover:bg-purple-900', 'hover:bg-opacity-30');
                 }
             });
         }
@@ -466,13 +581,6 @@
             audio.currentTime = (progressBar.value / 100) * duration;
         }
         
-        // Format time
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-        
         // Change volume
         function setVolume() {
             audio.volume = volumeControl.value;
@@ -482,7 +590,7 @@
         function prevTrack() {
             currentTrackIndex--;
             if (currentTrackIndex < 0) {
-                currentTrackIndex = playlist.length - 1;
+                currentTrackIndex = filteredPlaylist.length - 1;
             }
             loadTrack(currentTrackIndex);
             audio.play();
@@ -492,12 +600,71 @@
         // Next track
         function nextTrack() {
             currentTrackIndex++;
-            if (currentTrackIndex > playlist.length - 1) {
+            if (currentTrackIndex > filteredPlaylist.length - 1) {
                 currentTrackIndex = 0;
             }
             loadTrack(currentTrackIndex);
             audio.play();
             playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+        
+        // Filter tracks by genre and search
+        function filterTracks() {
+            filteredPlaylist = fullPlaylist.filter(track => {
+                const matchesGenre = currentGenre === 'all' || track.genre === currentGenre;
+                const matchesSearch = track.title.toLowerCase().includes(currentSearch.toLowerCase()) || 
+                                     track.artist.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchesGenre && matchesSearch;
+            });
+            
+            renderPlaylist();
+            loadedItems = 30; // Reset loaded items when filtering
+        }
+        
+        // Render playlist
+        function renderPlaylist() {
+            const visibleTracks = filteredPlaylist.slice(0, loadedItems);
+            
+            playlistEl.innerHTML = visibleTracks.map((track, index) => `
+                <tr class="hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer ${index === currentTrackIndex ? 'bg-purple-900 bg-opacity-30' : ''}" 
+                    data-index="${index}">
+                    <td class="py-3 px-1 text-center">${track.id}</td>
+                    <td class="py-3">${track.title}</td>
+                    <td class="py-3">${track.artist}</td>
+                    <td class="py-3 text-right pr-4">${track.duration}</td>
+                </tr>
+            `).join('');
+            
+            // Hide loading if we've shown all tracks
+            if (loadedItems >= filteredPlaylist.length) {
+                loadingMoreEl.classList.add('hidden');
+            } else {
+                loadingMoreEl.classList.remove('hidden');
+            }
+        }
+        
+        // Load more tracks when scrolling
+        function loadMoreIfNeeded() {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const innerHeight = window.innerHeight;
+            const scrollHeight = document.documentElement.scrollHeight;
+            const distanceToBottom = scrollHeight - (scrollY + innerHeight);
+            
+            if (distanceToBottom < 200 && !isLoading && loadedItems < filteredPlaylist.length) {
+                isLoading = true;
+                loadingMoreEl.classList.remove('hidden');
+                
+                // Simulate loading delay
+                setTimeout(() => {
+                    loadedItems += 20;
+                    renderPlaylist();
+                    isLoading = false;
+                    
+                    if (loadedItems >= filteredPlaylist.length) {
+                        loadingMoreEl.classList.add('hidden');
+                    }
+                }, 500);
+            }
         }
         
         // Event listeners
@@ -511,17 +678,38 @@
         audio.addEventListener('ended', nextTrack);
         
         // Click on playlist item
-        playlistEl.querySelectorAll('li').forEach((item, index) => {
-            item.addEventListener('click', () => {
-                currentTrackIndex = index;
+        playlistEl.addEventListener('click', (e) => {
+            const row = e.target.closest('tr');
+            if (row) {
+                currentTrackIndex = parseInt(row.dataset.index);
                 loadTrack(currentTrackIndex);
                 audio.play();
                 playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+        });
+        
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            currentSearch = searchInput.value;
+            filterTracks();
+        });
+        
+        // Genre tabs functionality
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentGenre = btn.dataset.genre;
+                filterTracks();
             });
         });
         
+        // Infinite scroll
+        window.addEventListener('scroll', loadMoreIfNeeded);
+        
         // Initialize
-        loadTrack(currentTrackIndex);
+        filterTracks();
+        loadTrack(0);
         
         // Background interaction
         document.addEventListener('mousemove', (e) => {
