@@ -1,128 +1,538 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-  <title>Мини-чат</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: black;
-      color: white;
-    }
-
-    #chat {
-      height: 300px;
-      overflow-y: scroll;
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-
-    .message {
-      margin-bottom: 10px;
-      border: 2px solid #800080;
-      border-radius: 5px;
-      padding: 5px;
-      word-break: break-all;
-    }
-
-    .message span {
-      display: inline;
-    }
-
-    #message-input {
-      background-color: black;
-      color: white;
-      border: 2px solid white;
-      border-radius: 5px;
-      padding: 5px;
-    }
-
-    #submit-button {
-      background-color: orange;
-      color: white;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      padding: 8px 16px;
-      cursor: pointer;
-    }
-
-    #submit-button:hover {
-      background-color: #ff9900;
-    }
-  </style>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      loadChat();
-      displayMessages();
-    });
-
-    function sendMessage() {
-      var input = document.getElementById("message-input");
-      var message = input.value.trim();
-      if (message === "") {
-        return;
-      }
-
-      var username = getUsername();
-      var chat = getChat();
-      chat.push({ username: username, message: message });
-      saveChat(chat);
-      input.value = "";
-      displayMessages();
-    }
-
-    function getChat() {
-      var chatJson = localStorage.getItem("chat");
-      return chatJson ? JSON.parse(chatJson) : [];
-    }
-
-    function saveChat(chat) {
-      localStorage.setItem("chat", JSON.stringify(chat));
-    }
-
-    function loadChat() {
-      var username = getUsername();
-      if (!username) {
-        username = prompt("Введите ваше имя:");
-        localStorage.setItem("username", username);
-      }
-    }
-
-    function getUsername() {
-      return localStorage.getItem("username");
-    }
-
-    function displayMessages() {
-      var chat = getChat();
-      var chatContainer = document.getElementById("chat");
-      chatContainer.innerHTML = "";
-      chat.forEach(function(entry) {
-        var messageElement = document.createElement("div");
-        messageElement.classList.add("message");
-
-        var usernameElement = document.createElement("span");
-        usernameElement.style.fontWeight = "bold";
-        usernameElement.textContent = entry.username + ": ";
-
-        var messageTextElement = document.createElement("span");
-        messageTextElement.textContent = entry.message;
-
-        messageElement.appendChild(usernameElement);
-        messageElement.appendChild(messageTextElement);
-
-        chatContainer.appendChild(messageElement);
-      });
-    }
-  </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Retro Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00ffff;
+            --neon-purple: #9d00ff;
+            --neon-green: #00ff00;
+            --dark-bg: #0a0a1a;
+        }
+        
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background-color: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 255, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 255, 0.05) 0%, transparent 20%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        
+        .neon-border {
+            position: relative;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            background: linear-gradient(var(--dark-bg), var(--dark-bg)) padding-box,
+                        linear-gradient(135deg, var(--neon-pink), var(--neon-blue)) border-box;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.5), 
+                        0 0 20px rgba(0, 255, 255, 0.3);
+            animation: borderPulse 4s infinite alternate;
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 5px var(--neon-pink), 
+                         0 0 10px var(--neon-pink),
+                         0 0 20px var(--neon-pink);
+            color: white;
+        }
+        
+        .neon-btn {
+            position: relative;
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        
+        .neon-btn:hover {
+            background: rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 15px var(--neon-blue), 
+                        0 0 25px var(--neon-blue);
+            transform: translateY(-2px);
+        }
+        
+        .neon-btn:active {
+            transform: translateY(0);
+        }
+        
+        .neon-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .neon-btn:hover::before {
+            left: 100%;
+        }
+        
+        .logo-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .logo-container::before, .logo-container::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border: 2px solid var(--neon-pink);
+            border-radius: 10px;
+            animation: neonGlow 2s infinite alternate;
+            z-index: -1;
+        }
+        
+        .logo-container::after {
+            border-color: var(--neon-blue);
+            animation-delay: 0.5s;
+        }
+        
+        .audio-progress {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .audio-progress::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            background: var(--neon-pink);
+            border-radius: 50%;
+            box-shadow: -407px 0 0 400px var(--neon-pink);
+            cursor: pointer;
+        }
+        
+        .cat-container {
+            position: relative;
+            width: 100px;
+            height: 80px;
+            margin: 0 auto;
+        }
+        
+        .cat {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            background-color: #ff9900;
+            border-radius: 50% 50% 0 0;
+            bottom: 0;
+            left: 20px;
+        }
+        
+        .cat-ear-left, .cat-ear-right {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 20px solid #ff9900;
+            top: -15px;
+        }
+        
+        .cat-ear-left {
+            left: 0;
+            transform: rotate(-30deg);
+        }
+        
+        .cat-ear-right {
+            right: 0;
+            transform: rotate(30deg);
+        }
+        
+        .cat-eye-left, .cat-eye-right {
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            background-color: #333;
+            border-radius: 50%;
+            top: 15px;
+        }
+        
+        .cat-eye-left {
+            left: 15px;
+        }
+        
+        .cat-eye-right {
+            right: 15px;
+        }
+        
+        .cat-mouth {
+            position: absolute;
+            width: 20px;
+            height: 10px;
+            border-bottom: 2px solid #333;
+            border-radius: 0 0 50% 50%;
+            bottom: 10px;
+            left: 20px;
+        }
+        
+        .bowl {
+            position: absolute;
+            width: 40px;
+            height: 15px;
+            background-color: #ccc;
+            border-radius: 0 0 50% 50%;
+            bottom: 0;
+            left: 30px;
+        }
+        
+        .food {
+            position: absolute;
+            width: 30px;
+            height: 5px;
+            background-color: #ff6666;
+            border-radius: 5px;
+            bottom: 5px;
+            left: 35px;
+            animation: eating 3s infinite;
+        }
+        
+        @keyframes eating {
+            0%, 100% { width: 30px; }
+            50% { width: 10px; }
+        }
+        
+        @keyframes neonGlow {
+            from {
+                box-shadow: 0 0 5px var(--neon-pink), 
+                            0 0 10px var(--neon-pink),
+                            0 0 15px var(--neon-pink);
+            }
+            to {
+                box-shadow: 0 0 10px var(--neon-pink), 
+                            0 0 20px var(--neon-pink),
+                            0 0 30px var(--neon-pink);
+            }
+        }
+        
+        @keyframes borderPulse {
+            from {
+                box-shadow: 0 0 10px rgba(255, 0, 255, 0.5), 
+                            0 0 20px rgba(0, 255, 255, 0.3);
+            }
+            to {
+                box-shadow: 0 0 15px rgba(255, 0, 255, 0.8), 
+                            0 0 30px rgba(0, 255, 255, 0.5);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @media (max-width: 768px) {
+            .player-container {
+                width: 90% !important;
+                padding: 15px !important;
+            }
+            
+            .logo-container img {
+                width: 120px !important;
+            }
+            
+            .btn-group {
+                flex-direction: column !important;
+                gap: 10px !important;
+            }
+            
+            .neon-btn {
+                padding: 8px 15px !important;
+                font-size: 12px !important;
+            }
+        }
+    </style>
 </head>
-<body>
-  <h1>Мини-чат</h1>
-  <div id="chat"></div>
+<body class="flex flex-col items-center justify-between p-4">
+    <header class="w-full text-center mb-8">
+        <div class="logo-container floating">
+            <img src="logo.png" alt="Neon Player Logo" class="w-48 h-auto rounded-lg">
+        </div>
+        <h1 class="neon-text text-2xl md:text-4xl mt-4">NEON RETRO PLAYER</h1>
+    </header>
 
-  <form id="message-form" onsubmit="sendMessage(); return false;">
-    <input type="text" id="message-input" placeholder="Введите сообщение" required>
-    <button type="submit" id="submit-button">Отправить</button>
-  </form>
+    <main class="w-full max-w-2xl flex-grow flex flex-col items-center justify-center">
+        <div class="player-container neon-border w-full p-8 mb-8 bg-opacity-50 backdrop-blur-sm">
+            <div class="flex flex-col items-center">
+                <div class="w-40 h-40 md:w-64 md:h-64 mb-6 neon-border overflow-hidden rounded-full">
+                    <img id="album-art" src="https://via.placeholder.com/300" alt="Album Art" class="w-full h-full object-cover">
+                </div>
+                
+                <div class="w-full text-center mb-6">
+                    <h2 id="song-title" class="neon-text text-xl md:text-2xl mb-1">Unknown Song</h2>
+                    <p id="artist-name" class="text-sm md:text-base text-gray-400">Unknown Artist</p>
+                </div>
+                
+                <div class="w-full mb-6">
+                    <input type="range" id="progress-bar" class="audio-progress w-full" value="0">
+                    <div class="flex justify-between text-xs text-gray-400 mt-1">
+                        <span id="current-time">0:00</span>
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+                
+                <div class="btn-group flex gap-4 mb-6">
+                    <button class="neon-btn" id="prev-btn"><i class="fas fa-step-backward"></i></button>
+                    <button class="neon-btn" id="play-btn"><i class="fas fa-play"></i></button>
+                    <button class="neon-btn" id="next-btn"><i class="fas fa-step-forward"></i></button>
+                </div>
+                
+                <div class="w-full flex items-center gap-4">
+                    <span class="text-xs"><i class="fas fa-volume-down"></i></span>
+                    <input type="range" id="volume-control" class="audio-progress flex-grow" min="0" max="1" step="0.01" value="0.7">
+                    <span class="text-xs"><i class="fas fa-volume-up"></i></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="w-full max-w-2xl neon-border p-4 mb-8">
+            <h3 class="neon-text text-lg mb-4">Playlist</h3>
+            <ul id="playlist" class="space-y-2 max-h-60 overflow-y-auto">
+                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
+                    <span>Retro Wave 1</span>
+                    <span class="text-xs text-gray-400">3:24</span>
+                </li>
+                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
+                    <span>Synth Dreams</span>
+                    <span class="text-xs text-gray-400">4:12</span>
+                </li>
+                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
+                    <span>Neon Nights</span>
+                    <span class="text-xs text-gray-400">3:45</span>
+                </li>
+                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
+                    <span>Cyberpunk City</span>
+                    <span class="text-xs text-gray-400">5:18</span>
+                </li>
+                <li class="flex justify-between items-center p-2 hover:bg-purple-900 hover:bg-opacity-30 cursor-pointer rounded">
+                    <span>Outrun Memories</span>
+                    <span class="text-xs text-gray-400">4:32</span>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="w-full text-center mt-8 py-4">
+        <div class="cat-container mb-4">
+            <div class="cat">
+                <div class="cat-ear-left"></div>
+                <div class="cat-ear-right"></div>
+                <div class="cat-eye-left"></div>
+                <div class="cat-eye-right"></div>
+                <div class="cat-mouth"></div>
+            </div>
+            <div class="bowl"></div>
+            <div class="food"></div>
+        </div>
+        <p class="text-xs text-gray-500">Winsent Sweet Home DEV 2023, все права защищены</p>
+    </footer>
+
+    <script>
+        // Audio player functionality
+        const audio = new Audio();
+        const playBtn = document.getElementById('play-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const volumeControl = document.getElementById('volume-control');
+        const currentTimeEl = document.getElementById('current-time');
+        const durationEl = document.getElementById('duration');
+        const songTitleEl = document.getElementById('song-title');
+        const artistNameEl = document.getElementById('artist-name');
+        const albumArtEl = document.getElementById('album-art');
+        const playlistEl = document.getElementById('playlist');
+        
+        // Sample playlist data
+        const playlist = [
+            {
+                title: "Retro Wave 1",
+                artist: "Synth Master",
+                duration: "3:24",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                cover: "https://via.placeholder.com/300/ff00ff/000000?text=Retro+Wave"
+            },
+            {
+                title: "Synth Dreams",
+                artist: "Neon Dreams",
+                duration: "4:12",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+                cover: "https://via.placeholder.com/300/00ffff/000000?text=Synth+Dreams"
+            },
+            {
+                title: "Neon Nights",
+                artist: "Cyber Synth",
+                duration: "3:45",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+                cover: "https://via.placeholder.com/300/9d00ff/000000?text=Neon+Nights"
+            },
+            {
+                title: "Cyberpunk City",
+                artist: "Future Sounds",
+                duration: "5:18",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+                cover: "https://via.placeholder.com/300/00ff00/000000?text=Cyberpunk+City"
+            },
+            {
+                title: "Outrun Memories",
+                artist: "Retro Drive",
+                duration: "4:32",
+                src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+                cover: "https://via.placeholder.com/300/ff9900/000000?text=Outrun+Memories"
+            }
+        ];
+        
+        let currentTrackIndex = 0;
+        
+        // Load track
+        function loadTrack(index) {
+            const track = playlist[index];
+            audio.src = track.src;
+            songTitleEl.textContent = track.title;
+            artistNameEl.textContent = track.artist;
+            albumArtEl.src = track.cover;
+            
+            // Update active item in playlist
+            const playlistItems = playlistEl.querySelectorAll('li');
+            playlistItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('bg-purple-900', 'bg-opacity-30');
+                    item.classList.remove('hover:bg-purple-900', 'hover:bg-opacity-30');
+                } else {
+                    item.classList.remove('bg-purple-900', 'bg-opacity-30');
+                    item.classList.add('hover:bg-purple-900', 'hover:bg-opacity-30');
+                }
+            });
+        }
+        
+        // Play/pause track
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            const { currentTime, duration } = audio;
+            const progressPercent = (currentTime / duration) * 100;
+            progressBar.value = progressPercent;
+            
+            // Update time display
+            currentTimeEl.textContent = formatTime(currentTime);
+            if (duration) {
+                durationEl.textContent = formatTime(duration);
+            }
+        }
+        
+        // Set progress
+        function setProgress() {
+            const duration = audio.duration;
+            audio.currentTime = (progressBar.value / 100) * duration;
+        }
+        
+        // Format time
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+        
+        // Change volume
+        function setVolume() {
+            audio.volume = volumeControl.value;
+        }
+        
+        // Previous track
+        function prevTrack() {
+            currentTrackIndex--;
+            if (currentTrackIndex < 0) {
+                currentTrackIndex = playlist.length - 1;
+            }
+            loadTrack(currentTrackIndex);
+            audio.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+        
+        // Next track
+        function nextTrack() {
+            currentTrackIndex++;
+            if (currentTrackIndex > playlist.length - 1) {
+                currentTrackIndex = 0;
+            }
+            loadTrack(currentTrackIndex);
+            audio.play();
+            playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        }
+        
+        // Event listeners
+        playBtn.addEventListener('click', togglePlay);
+        prevBtn.addEventListener('click', prevTrack);
+        nextBtn.addEventListener('click', nextTrack);
+        progressBar.addEventListener('input', setProgress);
+        volumeControl.addEventListener('input', setVolume);
+        
+        audio.addEventListener('timeupdate', updateProgress);
+        audio.addEventListener('ended', nextTrack);
+        
+        // Click on playlist item
+        playlistEl.querySelectorAll('li').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentTrackIndex = index;
+                loadTrack(currentTrackIndex);
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            });
+        });
+        
+        // Initialize
+        loadTrack(currentTrackIndex);
+        
+        // Background interaction
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            document.body.style.backgroundImage = `
+                radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(255, 0, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at ${100 - x * 100}% ${100 - y * 100}%, rgba(0, 255, 255, 0.1) 0%, transparent 20%)
+            `;
+        });
+    </script>
 </body>
 </html>
